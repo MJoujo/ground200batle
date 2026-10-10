@@ -170,13 +170,6 @@ html,body{height:100%;overflow:hidden}
 #rot{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);color:#fff;display:none;align-items:center;justify-content:center;text-align:center;font-size:20px;flex-direction:column;line-height:1.6}
 #shell,#app{position:absolute;left:0;top:0;width:820px;height:380px;max-width:none;margin:0;transform-origin:0 0;overflow:hidden;box-sizing:border-box;touch-action:manipulation}
 #shell{flex-direction:column}
-#app{padding:6px;display:none;grid-template-columns:118px 336px 1fr;grid-template-rows:78px auto minmax(36px,auto) auto 78px auto;gap:4px 8px;align-content:start}
-#app>:nth-child(1){grid-column:1;grid-row:1}#app>:nth-child(2){grid-column:1;grid-row:2}
-#app>:nth-child(3){grid-column:2;grid-row:1/3}#app>:nth-child(4){grid-column:2;grid-row:3}
-#app>:nth-child(5){grid-column:2;grid-row:4/6}#app>:nth-child(6){grid-column:1;grid-row:4}
-#app>:nth-child(7){grid-column:1;grid-row:5}#app>:nth-child(8){grid-column:3;grid-row:1/3}
-#app>:nth-child(9){grid-column:3;grid-row:3}#app>:nth-child(10){grid-column:3;grid-row:4/6}
-#app>:nth-child(11){grid-column:2;grid-row:6}#app>:nth-child(12){grid-column:3;grid-row:6}#app>:nth-child(13){grid-column:1;grid-row:3}
 #app .slot{height:108px}#app .hand{height:108px;padding:2px}#app .det{overflow:auto;height:100%;min-height:0;font-size:12px;margin:0}
 #app .log{font-size:11px;max-height:52px;overflow:hidden}#app .world{font-size:11px;padding:2px;margin:0}
 #app .info{flex-direction:column;align-items:flex-start;font-size:10px;padding:0 2px}
@@ -197,9 +190,59 @@ html,body{height:100%;overflow:hidden}
 .kf.full .ki{position:absolute;left:2px;bottom:1px;z-index:2}
 .tgau{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:40;background:rgba(0,0,0,.88);color:#fff;padding:6px 12px;border-radius:10px;border:2px solid #ff5252;animation:tgp .6s infinite alternate;text-align:center;width:min(86vw,360px);pointer-events:none}.tgau.me{border-color:#ffd54a}
 .tgb{height:8px;background:#444;border-radius:4px;margin-top:4px;overflow:hidden}.tgb div{height:100%;background:linear-gradient(90deg,#ff5252,#ffa000)}@keyframes tgp{from{box-shadow:0 0 4px #ff5252}to{box-shadow:0 0 16px #ff5252}}
+#app{display:none}
+.cnt{background:linear-gradient(90deg,rgba(0,0,0,.65),rgba(35,35,70,.85));border:2px solid #29b6f6;border-radius:10px;padding:2px 8px;color:#fff;box-sizing:border-box;display:block!important}
+.cnt.op{border-color:#ec407a}
+.cnt .cn1{font-size:10px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cnt .cn2{display:flex;gap:10px;align-items:center}
+.cnt .ci{display:flex;flex-direction:column;align-items:center;font-size:8px;line-height:1.1}
+.cnt .ci b,.cnt .gv b{font-size:15px}.cnt .gv{padding:1px 6px;background:rgba(255,255,255,.12);color:#fff;border-color:#888;font-size:8px}
+.life{position:absolute;top:8px;left:-64px;width:56px;text-align:center;color:#fff;border-radius:12px;padding:3px 0 4px;border:2px solid #fff;box-shadow:0 0 8px rgba(0,0,0,.6)}
+.life.me{background:linear-gradient(#4fc3f7,#0d47a1)}.life.op{background:linear-gradient(#ff8a80,#b71c1c)}
+.life small{white-space:nowrap}.life b{font-size:24px;line-height:1;display:block;text-shadow:0 1px 2px #000}.life small{font-size:9px;opacity:.9}
+.lp{display:flex;gap:1px;justify-content:center;margin-top:2px}.lp i{width:3px;height:6px;background:rgba(255,255,255,.3)}.lp i.on{background:#fff}
+.life.hot{animation:tgp .5s infinite alternate}
+#app>*{position:absolute}
+#app>.hand{z-index:8;padding:0;margin:0;display:flex;gap:0;align-items:flex-end}
+#app>.hand.mini{justify-content:flex-end;overflow:visible;cursor:pointer}
+#app>.hand.mini .hc{zoom:.62;margin-left:-26px;flex-shrink:0}
+#app>.hand.open{justify-content:flex-start;overflow-x:auto;overflow-y:hidden;background:rgba(0,0,0,.45);border-radius:12px 12px 0 0;padding:0 6px;box-sizing:border-box}
+#app>.hand.open .hc{zoom:1.32;margin:0 2px;flex-shrink:0;transition:transform .15s}
+#app>.hand.open .hc:first-child{margin-left:auto}#app>.hand.open .hc:last-child{margin-right:auto}
+#app>.hand.open .hc.sel{transform:translateY(-10px)}
+#app.land>:nth-child(1){left:calc(50% - 70px);right:auto;top:calc(50% - 190px);bottom:auto;width:140px;height:72px;margin:0}
+#app.land>:nth-child(2){left:auto;right:6px;top:calc(50% - 186px);bottom:auto;width:254px;height:44px;margin:0}
+#app.land>:nth-child(3){left:calc(50% - 168px);right:auto;top:calc(50% - 134px);bottom:auto;width:336px;height:108px;margin:0}
+#app.land>:nth-child(4){left:calc(50% - 168px);right:auto;top:calc(50% - 22px);bottom:auto;width:336px;height:20px;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#app.land>:nth-child(5){left:calc(50% - 168px);right:auto;top:calc(50% + 2px);bottom:auto;width:336px;height:108px;margin:0}
+#app.land>:nth-child(6){left:6px;right:auto;top:auto;bottom:calc(50% - 184px);width:170px;height:48px;margin:0}
+#app.land>:nth-child(7){left:calc(50% - 162px);right:auto;top:auto;bottom:calc(50% - 190px);width:140px;height:80px;margin:0}
+#app.land>:nth-child(9){left:auto;right:6px;top:calc(50% - 86px);bottom:auto;width:214px;height:auto;margin:0;flex-direction:column;align-items:stretch}
+#app.land>:nth-child(10){left:6px;right:auto;top:36px;bottom:auto;width:228px;height:180px;margin:0}
+#app.land>:nth-child(11){left:6px;right:auto;top:222px;bottom:auto;width:228px;height:90px;margin:0;font-size:10px;overflow:hidden}
+#app.land>.hand.mini{left:auto;right:6px;top:auto;bottom:4px;width:380px;height:76px}
+#app.land>.hand.open{left:calc(50% - 360px);right:auto;top:auto;bottom:0;width:720px;height:148px}
+#app.port>:nth-child(1){left:calc(50% - 70px);right:auto;top:0;bottom:auto;width:140px;height:70px;margin:0}
+#app.port>:nth-child(2){left:auto;right:4px;top:4px;bottom:auto;width:128px;height:56px;margin:0}
+#app.port>:nth-child(3){left:calc(50% - 168px);right:auto;top:76px;bottom:auto;width:336px;height:108px;margin:0}
+#app.port>:nth-child(4){left:calc(50% - 168px);right:auto;top:188px;bottom:auto;width:336px;height:20px;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#app.port>:nth-child(5){left:calc(50% - 168px);right:auto;top:212px;bottom:auto;width:336px;height:108px;margin:0}
+#app.port>:nth-child(6){left:auto;right:4px;top:326px;bottom:auto;width:128px;height:56px;margin:0}
+#app.port>:nth-child(7){left:calc(50% - 70px);right:auto;top:324px;bottom:auto;width:140px;height:76px;margin:0}
+#app.port>:nth-child(9){left:6px;right:6px;top:406px;bottom:auto;width:auto;height:44px;margin:0;flex-direction:row;flex-wrap:wrap;gap:4px}
+#app.port>:nth-child(10){left:6px;right:6px;top:454px;bottom:150px;width:auto;height:auto;margin:0}
+#app.port>:nth-child(11){left:6px;right:6px;top:auto;bottom:84px;width:auto;height:62px;margin:0;font-size:10px;overflow:hidden}
+#app.port>.hand.mini{left:calc(50% - 190px);right:auto;top:auto;bottom:4px;width:380px;height:76px}
+#app.port>.hand.open{left:0;right:0;top:auto;bottom:0;width:auto;height:150px}
+#app>:nth-child(12){display:none}
+#app>:nth-child(13){left:4px;right:auto;top:4px;bottom:auto;width:auto;height:auto;margin:0;z-index:7}
+#app.port .cnt .cn2{gap:6px}
+#shell.port .home{flex-direction:column}#shell.port .hr{grid-template-columns:1fr}#shell.port .tiles{grid-template-columns:repeat(2,1fr)}
+.ov{align-items:flex-start;justify-content:flex-start;overflow:auto;-webkit-overflow-scrolling:touch}
+.box{margin:auto;max-width:min(94vw,520px)}.box.wide{max-width:94vw;max-height:none;overflow:visible}
 .det{border:1px solid var(--line);border-radius:8px;padding:6px;min-height:110px;font-size:12px;margin-top:4px}.df{margin:3px 0;padding:3px;border-radius:4px}.df.on{background:rgba(255,213,74,.25)}
 .lk{position:fixed;inset:0;z-index:25}
-.gh{animation:brk .6s ease-out forwards}@keyframes brk{from{opacity:1;scale:1;filter:none}30%{scale:1.15;filter:brightness(2.2) saturate(2)}to{opacity:0;scale:.6;filter:grayscale(1) blur(2px)}}
+.gh{animation:brk .6s ease-out forwards}@keyframes brk{from{opacity:1;scale:var(--fs,1);filter:none}30%{scale:calc(var(--fs,1)*1.15);filter:brightness(2.2) saturate(2)}to{opacity:0;scale:calc(var(--fs,1)*.6);filter:grayscale(1) blur(2px)}}
 .pt{position:fixed;width:7px;height:7px;margin:-3px;border-radius:50%;background:#ff7043;z-index:21;pointer-events:none;animation:pt .6s ease-out forwards}@keyframes pt{to{transform:translate(var(--dx),var(--dy));opacity:0}}
 .bu{position:fixed;font-size:34px;z-index:21;pointer-events:none;animation:bu .45s ease-out forwards}@keyframes bu{from{transform:translate(-50%,-50%) scale(.3);opacity:1}to{transform:translate(-50%,-50%) scale(1.9);opacity:0}}
 .rg{position:fixed;width:30px;height:30px;margin:-15px 0 0 -15px;border:3px solid #ffd54a;border-radius:50%;z-index:21;pointer-events:none;animation:rg .5s ease-out forwards}@keyframes rg{to{transform:scale(4);opacity:0}}
@@ -215,7 +258,7 @@ html,body{height:100%;overflow:hidden}
 .box{background:var(--card);padding:18px;border-radius:12px;text-align:center;max-width:300px}
 .box .b{margin:3px}
 details{font-size:11px;opacity:.8;margin-top:8px}
-</style></head><body><div id="shell"><div id="pg"></div><nav id="tb"></nav></div><div id="app" style="display:none"></div><div id="md"></div><div id="rot">📱<br>端末を横向きにしてください<br><small>このゲームは横画面専用です</small></div>
+</style></head><body><div id="shell"><div id="pg"></div><nav id="tb"></nav></div><div id="app" style="display:none" onclick="appTap(event)"></div><div id="md"></div><div id="ovl"></div><div id="rot">📱<br>端末を横向きにしてください<br><small>このゲームは横画面専用です</small></div>
 <script>window.NETCFG_USER={url:"https://cwmbuxgnllhyaacqsrhi.supabase.co",key:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3bWJ1eGdubGxoeWFhY3FzcmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNTU5ODMsImV4cCI6MjEwNjkzMTk4M30.wsndjHOZ9koqUBM0GYBqV6XmSJNuheFdIHouPa4Vi7Q"};</script>
 <script>
 const R=[['見張り兵',1,2,3,'B','狼煙台',2,1,5,'B'],['野良犬',1,3,1,'','番犬',1,1,3,'B'],['剣士',2,4,2,'','騎士',3,3,4,''],['弓兵',2,3,2,'','砦',3,1,6,'B'],['狂戦士',3,5,1,'K','隠者',1,0,4,''],['巨人',4,6,4,'','小人',1,1,1,'P'],['賢者',2,2,2,'P','魔王',5,7,5,''],['盗賊',1,2,1,'','怪盗',2,3,2,''],['竜',5,8,3,'','卵',1,0,8,'B'],['守護兵',2,2,5,'B','傭兵',2,5,2,''],['亡霊',2,3,3,'P','骸骨',1,2,2,''],['武闘家',3,4,3,'','老師',4,5,5,''],['道化',1,1,1,'P','暗殺者',3,6,1,'K'],['狩人',2,3,3,'','熊',3,5,4,''],['工兵',1,1,2,'','戦車',4,6,6,'']];
@@ -305,8 +348,8 @@ const un=under&&!pl?`<div class="ku"><i class="kc">${under.c}</i><span>${under.n
 const front2=rk?front.replace(/^(<div class="kf[^"]*">)/,'$1'+rk):front;
 if(pl)return pcard(c,F,r,cls,an);
 return `<div class="card ${c.t} ${cls}${c.rar?' q'+c.rar:''}${pl?' pl':''}" style="transform:rotate(${r}deg);--t:${r}deg;${an}">${un}${front2}</div>`}
-function zoneHtml(pi){const p=S.p[pi];return `<div class="zone">${[0,1,2].map(i=>{const c=p.zone[i];const tg=pi!==S.turn&&S.atk!=null&&c&&c.tap;return `<div class="slot${tg?' tg':''}${S.blk&&pi===S.blk.p&&S.blk.o.includes(i)?' bkopt':''}" data-s="${pi}-${i}" onpointerdown="lp(${pi},${i})" oncontextmenu="return false" onclick="slotClick(${pi},${i})">${c?(c.down&&pi!==vw()?`<div class="card bk" style="transform:rotate(90deg)">?</div>`:card(c,(pi===S.turn&&(S.atk===i||S.mv===i)?'sel ':'')+(c.sick?'sk ':'')+(c.down?'dn':''))):['レフト','センター','ライト'][i]}</div>`}).join('')}</div>`}
-function infoHtml(p){return `<div class="info" data-s="${p.i}-deck"><span>${p.i===S.turn?'<b>▶ ':''}${PLN[p.i]||'プレイヤー'+(p.i+1)}${p.i===S.turn?'</b>':''}</span><span>山札${p.deck.length} 手札${p.hand.length} 墓地コスト<b>${sum(p)}</b>/10 <button class="b sm" onclick="showGrave(${p.i})">墓地</button></span></div>`}
+function zoneHtml(pi){const p=S.p[pi];return `<div class="zone">${[0,1,2].map(i=>{const c=p.zone[i];const tg=pi!==S.turn&&S.atk!=null&&c&&c.tap;return `<div class="slot${tg?' tg':''}${S.blk&&pi===S.blk.p&&S.blk.o.includes(i)?' bkopt':''}" data-s="${pi}-${i}" onpointerdown="lp(${pi},${i})" oncontextmenu="return false" onclick="HX=0;slotClick(${pi},${i})">${c?(c.down&&pi!==vw()?`<div class="card bk" style="transform:rotate(90deg)">?</div>`:card(c,(pi===S.turn&&(S.atk===i||S.mv===i)?'sel ':'')+(c.sick?'sk ':'')+(c.down?'dn':''))):['レフト','センター','ライト'][i]}</div>`}).join('')}</div>`}
+function infoHtml(p){const nm=PLN[p.i]||'プレイヤー'+(p.i+1);return `<div class="info cnt ${p.i===vw()?'me':'op'}" data-s="${p.i}-deck"><div class="cn1">${p.i===S.turn?'▶ ':''}${nm}</div><div class="cn2"><span class="ci"><b>${p.deck.length}</b>山札</span><span class="ci"><b>${p.hand.length}</b>手札</span><button class="b sm gv" onclick="showGrave(${p.i})">墓地 <b>${p.grave.length}</b></button></div></div>`}
 function bar(){if(S.blk)return blkBar();if((ON&&S.turn!==ME)||(CPU&&S.turn===1))return '<span>相手の番です</span>';const me=cur(),o=opp();let h='';
 if(S.phase==='main'){const c=me.hand[S.sel];
 if(c&&c.t==='w')h+=S.noW?'<span>このターンは世界カード使用不可</span>':`<button class="b" onclick="playWorld()">世界を展開</button>`;
@@ -321,8 +364,8 @@ let ov='';
 if(S.over&&!S.shown)ov='';else if(S.over)ov=`<div class="ov"><div class="box"><h2>${(ON||CPU)?(S.over.w===(ON?ME:0)?'🎉 あなたの勝ち!':'あなたの負け'):'プレイヤー'+(S.over.w+1)+'の勝利'}</h2><p>${S.over.m}</p>${S.rwTxt?`<p>${S.rwTxt}</p>`:''}${ON?'':'<button class="b" onclick="init()">もう一度</button>'}${CPU?'<button class="b" onclick="goStory()">ストーリーへ</button>':''}<button class="b" onclick="goHome()">ホームへ</button></div></div>`;
 else if(S.ask)ov=askHtml();else if(S.pick&&((ON&&S.pick.p.i!==ME)||(CPU&&S.pick.p.i===1)))ov=waitHtml('相手が選択中…');else if(S.pick)ov=`<div class="ov"><div class="box"><p>プレイヤー${S.pick.p.i+1}:${S.pick.m==='b'?'山札の下に置くカードを選択':S.pick.m==='s'?'探索:置くカードを1枚選択':S.pick.q||'墓地に置く手札を1枚選択'}</p>${S.pick.cs.map((c,i)=>`<span class="pc" onclick="pickD(${i})">${card(c)}<div>コスト${fc(c).c}</div></span>`).join('')}${S.pick.sk?'<button class="b" onclick="pickD(-1)">しない</button>':''}</div></div>`;
 else if(S.evo&&((ON&&S.evoP!==ME)||(CPU&&S.evoP===1)))ov=waitHtml('相手が選択中…');else if(S.evo)ov=evoHtml();else if(S.cover)ov=`<div class="ov"><div class="box">${S.fst?`<div class="cw"><div class="coin ${S.coin?'ch':'ct'}"><div class="cf cfa">表</div><div class="cf cfb">裏</div></div></div><h2 class="late">${S.coin?'表':'裏'}!プレイヤー${S.turn+1}が先行</h2>`:`<h2>プレイヤー${S.turn+1}の番</h2>`}${ON||CPU?'':'<p>相手に手札が見えないよう端末を渡してください</p>'}${!ON||S.turn===ME?`<button class="b${S.fst?' late':''}" onclick="go()">開始</button>`:`<p class="late">先行プレイヤーの開始待ち</p>`}</div></div>`;
-$('app').innerHTML=`${avHtml(o.i,0)}${infoHtml(o)}${zoneHtml(o.i)}<div class="world">世界:${w?w.c.f[0].n+`(コスト${w.c.f[0].c}/P${w.o+1}所有)「${w.c.f[0].x}」`:'なし'}　フェイズ:${S.phase==='main'?'メイン':'アタック'}${ON?` / ルーム${RCODE} あなたはP${ME+1}`:''}</div>${zoneHtml(me.i)}${infoHtml(me)}${avHtml(me.i,1)}<div class="hand">${me.hand.map((c,i)=>`<div onclick="handClick(${i})">${card(c,S.turn===vw()&&S.sel===i?'sel':'',1)}</div>`).join('')}</div><div class="bar">${bar()}</div><div class="det">${det()}</div><div class="log">${S.log.slice(-3).join('<br>')}</div>
-<details><summary>ルールと試作版の仮仕様</summary>カードは上が表、下の逆さ面が裏。パラレルすると180°回転して裏面が有効になる。コストは墓地の合計のみに使い、プレイ自体は無料。世界カードを入れ替えた時だけパラレルが起きる(⇄は影響なし)。直接攻撃は相手にタップ中のレジデントがいない時のみ。🛡は攻撃を受ける時にブロック可。✸はバトルで相打ち。バトルに負けた側は破壊。置いたターンは攻撃不可(💤は可)。🎯はタップ中を無視して直接攻撃でき、ブロックされない。デッキは40枚。入れ替えは各レジデント、1ターンに1回まで。🔸nは墓地コストn以上で効果発動。メインフェイズ中、場のレジデントをタップ→移動先をタップで移動/入替。🤝nは手札にあり、自軍のコストn以上が攻撃する時、攻撃中のレジデントと入替可。パラレルは世界を入れ替えた時、相手のレジデントだけが反転します(裏返しの世界は自分)。↪️パラレルカウンターは、自分にパラレルが起きた時に手札から使えます。下面に呪文を持つレジデントは、パラレルで反転して呪文が発動し、そのあと墓地へ行きます。手札のレジデントはダブルタップで出す面を反転。コイン表でP1先行、先行は最初に探索(世界)。パラレルレジデントは通常召喚不可で、自分にパラレルが起きた時(相手のターン中でも)、条件に合う場のレジデントの上に重ねられる。</details><div style="text-align:center;margin-top:6px"><button class="b" onclick="goHome()">ホームへ戻る(対戦を中断)</button></div>${ov}`;wbg();arw();{const h=document.querySelector('.hand');if(h)h.scrollLeft=HSL}tutStep();if(ON&&ISH)syncOut();S.p.forEach(p=>[...p.zone,...p.hand].forEach(c=>c&&(c.an=null)));(S.q||[]).splice(0).forEach(f=>f())}
+$('app').innerHTML=`${avHtml(o.i,0)}${infoHtml(o)}${zoneHtml(o.i)}<div class="world">世界:${w?w.c.f[0].n+`(コスト${w.c.f[0].c}/P${w.o+1}所有)「${w.c.f[0].x}」`:'なし'}　フェイズ:${S.phase==='main'?'メイン':'アタック'}${ON?` / ルーム${RCODE} あなたはP${ME+1}`:''}</div>${zoneHtml(me.i)}${infoHtml(me)}${avHtml(me.i,1)}<div class="hand ${HX?'open':'mini'}" onclick="if(!HX){HX=1;render()}">${me.hand.map((c,i)=>`<div class="hc${S.turn===vw()&&S.sel===i?' sel':''}" onclick="event.stopPropagation();handTap(${i})">${card(c,S.turn===vw()&&S.sel===i?'sel':'',1)}</div>`).join('')}</div><div class="bar">${bar()}</div><div class="det">${det()}</div><div class="log">${S.log.slice(-3).join('<br>')}</div>
+<details><summary>ルールと試作版の仮仕様</summary>カードは上が表、下の逆さ面が裏。パラレルすると180°回転して裏面が有効になる。コストは墓地の合計のみに使い、プレイ自体は無料。世界カードを入れ替えた時だけパラレルが起きる(⇄は影響なし)。直接攻撃は相手にタップ中のレジデントがいない時のみ。🛡は攻撃を受ける時にブロック可。✸はバトルで相打ち。バトルに負けた側は破壊。置いたターンは攻撃不可(💤は可)。🎯はタップ中を無視して直接攻撃でき、ブロックされない。デッキは40枚。入れ替えは各レジデント、1ターンに1回まで。🔸nは墓地コストn以上で効果発動。メインフェイズ中、場のレジデントをタップ→移動先をタップで移動/入替。🤝nは手札にあり、自軍のコストn以上が攻撃する時、攻撃中のレジデントと入替可。パラレルは世界を入れ替えた時、相手のレジデントだけが反転します(裏返しの世界は自分)。↪️パラレルカウンターは、自分にパラレルが起きた時に手札から使えます。下面に呪文を持つレジデントは、パラレルで反転して呪文が発動し、そのあと墓地へ行きます。手札のレジデントはダブルタップで出す面を反転。コイン表でP1先行、先行は最初に探索(世界)。パラレルレジデントは通常召喚不可で、自分にパラレルが起きた時(相手のターン中でも)、条件に合う場のレジデントの上に重ねられる。</details><div style="text-align:center;margin-top:6px"><button class="b" onclick="goHome()">⌂ ホーム</button></div>`;$('ovl').innerHTML=ov;wbg();arw();{const h=document.querySelector('.hand');if(h)h.scrollLeft=HSL}tutStep();if(ON&&ISH)syncOut();S.p.forEach(p=>[...p.zone,...p.hand].forEach(c=>c&&(c.an=null)));(S.q||[]).splice(0).forEach(f=>f())}
 function handClick(i){S.insp=null;S.mv=null;if(S.phase==='main')S.sel=S.sel===i?null:i;render()}
 function slotClick(pi,i){if(S.over||S.lpF)return;S.insp=null;if(S.blk){if(pi===S.blk.p&&S.blk.o.includes(i))blkPick(i);return}const me=cur(),o=opp();
 if(pi===me.i){if(S.phase==='main'){const c=me.hand[S.sel];if(S.mv!=null){if(S.mv!==i){const t=me.zone[S.mv];me.zone[S.mv]=me.zone[i];me.zone[i]=t;log('配置を入れ替え')}S.mv=null}else if(!c&&me.zone[i])S.mv=i;else if(c&&c.t==='r'&&!c.pa&&me.zone[i]&&me.zone.every(x=>x)){swapAsk(me,i,S.sel)}else if(c&&c.t==='r'&&!c.pa&&!me.zone[i]){const z=me.hand.splice(S.sel,1)[0],old=me.zone[i];if(old){if(old.under){old.under.forEach(x=>gy(me,x));old.under=null}old.tap=0;old.flip=0;old.sf=0;old.sick=0;old.down=0;old.o=null;old.hf=0;old.an='drw';me.hand.push(old);log(fc(old).n+'が手札に戻った')}z.o=me.i;z.sick=1;z.flip=z.hf?1:0;z.hf=0;if(S.dm){z.down=1;z.tap=1}z.an='slam';S.q=[()=>slamFx(me.i,i)];me.zone[i]=z;if(!S.dm&&ef(z).k.includes('M'))(S.md=S.md||[]).push({t:S.tn||0,p:1-me.i,e:'s5'});S.sel=null;log(S.dm?'守備召喚':`${fc(z).n}を配置`)}}
@@ -369,8 +412,8 @@ function ring(e){const [x,y]=ctr(e);fx('rg','',x,y,550)}
 function shake(){const a=$('app');a.classList.add('shaking');setTimeout(()=>a.classList.remove('shaking'),320)}
 function slamFx(p,i){fxe('slam',[p,i]);const e=q(p,i);if(e)ring(e);shake()}
 function fxWorld(n,x){fxe('world',[n,x]);fx('fw',`<div>${n}</div><small>${x}</small>`,null,null,1150)}
-function brk(p,i){fxe('brk',[p,i]);const e=q(p,i),c=e&&e.querySelector('.card');if(!c)return;const [x,y]=ctr(e),g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${x-32}px;top:${y-49}px;margin:0;z-index:20;`;g.classList.add('gh');document.body.appendChild(g);setTimeout(()=>g.remove(),650);for(let k=0;k<8;k++){const a=k*Math.PI/4,d=fx('pt','',x,y,650);d.style.setProperty('--dx',Math.cos(a)*50+'px');d.style.setProperty('--dy',Math.sin(a)*50+'px')}}
-function clash(ai,t){fxe('clash',[ai,t]);const A=q(S.turn,ai),B=q(1-S.turn,t==='deck'?'deck':t),c=A&&A.querySelector('.card');if(!c||!B)return;const [ax,ay]=ctr(A),[bx,by]=ctr(B),g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${ax-32}px;top:${ay-49}px;margin:0;z-index:20;transform:none;`;document.body.appendChild(g);c.style.opacity=0;g.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${bx-ax}px,${by-ay}px) scale(1.3)`,offset:.5},{transform:'translate(0,0) scale(1)'}],{duration:500,easing:'ease-in-out'}).onfinish=()=>g.remove();setTimeout(()=>fx('bu','💥',bx,by,450),250)}
+function brk(p,i){fxe('brk',[p,i]);const e=q(p,i),c=e&&e.querySelector('.card');if(!c)return;const [x,y]=ctr(e),g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${x-32}px;top:${y-49}px;margin:0;z-index:20;`;g.classList.add('gh');g.style.setProperty('--fs',FS);document.body.appendChild(g);setTimeout(()=>g.remove(),650);for(let k=0;k<8;k++){const a=k*Math.PI/4,d=fx('pt','',x,y,650);d.style.setProperty('--dx',Math.cos(a)*50+'px');d.style.setProperty('--dy',Math.sin(a)*50+'px')}}
+function clash(ai,t){fxe('clash',[ai,t]);const A=q(S.turn,ai),B=q(1-S.turn,t==='deck'?'deck':t),c=A&&A.querySelector('.card');if(!c||!B)return;const [ax,ay]=ctr(A),[bx,by]=ctr(B),g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${ax-32}px;top:${ay-49}px;margin:0;z-index:20;transform:none;`;document.body.appendChild(g);c.style.opacity=0;g.animate([{transform:`translate(0,0) scale(${FS})`},{transform:`translate(${bx-ax}px,${by-ay}px) scale(${1.3*FS})`,offset:.5},{transform:`translate(0,0) scale(${FS})`}],{duration:500,easing:'ease-in-out'}).onfinish=()=>g.remove();setTimeout(()=>fx('bu','💥',bx,by,450),250)}
 function flush(){FX.splice(0).forEach(([p,i])=>brk(p,i));render()}
 function tansaku(p,flt,z,next){const m=p.deck.filter(flt);for(let i=TG?0:m.length-1;i>0;i--){const j=0|Math.random()*(i+1);[m[i],m[j]]=[m[j],m[i]]}const cs=m.slice(0,3);
 if(!cs.length){log('探索:該当なし');if(next)next();else render();return}
@@ -420,11 +463,11 @@ function remC(k){const c=ED.cnt;if(!c[k])return;if(--c[k]<=0)delete c[k];edRende
 function renameDeck(){askText('デッキ名',ED.name,v=>{ED.name=v;edRender()})}
 function saveDeck(){const T=tot(ED.cnt);if(T<DK)return msg(`デッキは${DK}枚そろえないと保存できません(現在${T}枚)`);
 let d=ST.decks.find(x=>x.id===ED.id);if(!d){d={id:'d'+Date.now()};ST.decks.push(d)}d.name=ED.name;d.cnt={...ED.cnt};ST.sel=d.id;store();toast('保存しました。このデッキで対戦できます');showPage('deck')}
-function startBattle(){const d=curDeck();if(!d)return msg('デッキがありません。デッキを新規作成してください');BD=d.cnt;BD2=null;ON=0;CPU=0;AVP=[ST.av,ST.av];PLN=[ST.name||'あなた','プレイヤー2'];TG=0;EMO=[null,null];WH=0;$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);init()}
+function startBattle(){const d=curDeck();if(!d)return msg('デッキがありません。デッキを新規作成してください');BD=d.cnt;BD2=null;ON=0;CPU=0;AVP=[ST.av,ST.av];PLN=[ST.name||'あなた','プレイヤー2'];TG=0;EMO=[null,null];WH=0;$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);init()}
 function goHome(){leaveOn();CPU=0;{const e=document.getElementById('arw');if(e)e.remove()}TUT=0;TG=0;{const c=document.querySelector('.coach');if(c)c.remove()}clearTimeout(CT);document.body.style.background='';$('app').classList.remove('wbg');$('app').style.display='none';$('shell').style.display='flex';showPage('home')}
 const dgEl=()=>[...document.querySelectorAll('.it')].find(x=>x.dataset.k===DG.k&&x.dataset.s===DG.s);
 const dgEnd=()=>{document.querySelectorAll('.dgh').forEach(x=>x.remove());document.querySelectorAll('.hl').forEach(x=>x.classList.remove('hl'))};
-document.addEventListener('pointerdown',e=>{if(PG!=='edit'||$('app').style.display==='grid')return;const it=e.target.closest&&e.target.closest('.it');if(it)DG={k:it.dataset.k,s:it.dataset.s,x:e.clientX,y:e.clientY,on:0}});
+document.addEventListener('pointerdown',e=>{if(PG!=='edit'||$('app').style.display==='block')return;const it=e.target.closest&&e.target.closest('.it');if(it)DG={k:it.dataset.k,s:it.dataset.s,x:e.clientX,y:e.clientY,on:0}});
 document.addEventListener('pointermove',e=>{if(!DG)return;const dx=e.clientX-DG.x,dy=e.clientY-DG.y;
 if(!DG.on){if(Math.hypot(dx,dy)<10)return;if(e.pointerType==='touch'&&Math.abs(dy)>Math.abs(dx)){DG=null;return}
 DG.on=1;const g=dgEl().querySelector('.card').cloneNode(true);g.classList.add('dgh');g.style.cssText+=';position:fixed;margin:0;z-index:50;pointer-events:none;opacity:.9;transform:scale(1.15)';document.body.appendChild(g)}
@@ -481,7 +524,7 @@ const el=$('ol');if(el)el.textContent=`ルーム ${RCODE}:参加者 ${Math.min(v
 if(v.length<2||!v[0].presence.dk||!v[1].presence.dk)return;
 const mi=v.findIndex(p=>p.sameTab);if(mi<0||mi>1)return msg('このルームは満員です');
 STARTED=1;ME=mi;ISH=mi===0;ON=1;HP=v[0].peer;GP=v[1].peer;LA=Date.now();TREM=-1;clearInterval(TIV);TIV=setInterval(tmrTick,250);AVP=[v[0].presence.av||'def',v[1].presence.av||'def'];PLN=[v[0].presence.nm||'プレイヤー1',v[1].presence.nm||'プレイヤー2'];EMO=[null,null];WH=0;
-$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);
+$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);
 if(ISH){BD=cnt(v[0].presence.dk);BD2=cnt(v[1].presence.dk);init();HB=setInterval(()=>{if(ON&&ISH)syncOut()},3000)}
 else{S={p:[],log:[],turn:0,phase:'main'};$('app').innerHTML='<p style="padding:20px">接続中…</p>';RM.emit('op',{f:'hello',a:[]}).catch(()=>{})}}
 function leaveOn(){clearInterval(HB);clearInterval(TIV);{const g=document.getElementById('tgau');if(g)g.remove()}if(RM){try{RM.leave()}catch(e){}}RM=null;ON=0;ISH=0;STARTED=0;BD2=null;SEQ=0;LQ=-1;LK=''}
@@ -599,7 +642,7 @@ const STORY=[
 {n:'真空使い(Sec)',av:'真空使い(Sec)',t:'……真空の果てへ、ようこそ。',rw:1000,deck:{'真空使い(Sec)':2,真空使い:3,ユグドラシル:2,竜:3,悪魔じじい:2,荒地の魔女:2,巨人:3,狂戦士:2,守護兵:3,天界:2,バベルの塔:2,雷鳴:1,天啓:1,貫き:2,栄光の架橋:3,弓兵:3,剣士:3}}];
 function pStory(){return `<div class="pgc"><h3>ストーリー</h3><p style="font-size:12px;opacity:.8">あなたの選択中デッキでCPUと対戦します。勝つと報酬ポイントがもらえます。</p>${STORY.map((s,i)=>`<div class="tile" style="display:flex;gap:10px;align-items:center;margin:8px 0"><div class="avt sm" style="background-image:url(${ART[s.av]})"></div><div style="flex:1"><b>第${i+1}話 ${s.n}</b>${i<(ST.sc||0)?' ✅':''}<small>報酬 ✨${s.rw}pt</small></div><button class="b pri" onclick="storyAsk(${i})">挑戦</button></div>`).join('')}</div>`}
 function storyAsk(i){const s=STORY[i];modal(`<div class="avt" style="background-image:url(${ART[s.av]})"></div><b>第${i+1}話 ${s.n}</b><p>「${s.t}」</p><button class="b pri" onclick="startStory(${i})">バトル開始</button><button class="b" onclick="modal()">やめる</button>`)}
-function startStory(i){const d=curDeck();if(!d){modal();return msg('デッキがありません。デッキを作成してください')}modal();BD=d.cnt;BD2=fitDeck(STORY[i].deck);ON=0;CPU=1;STAGE=i;AVP=[ST.av,STORY[i].av];PLN=[ST.name||'あなた',STORY[i].n];TG=0;EMO=[null,null];WH=0;$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);init();cpuStep()}
+function startStory(i){const d=curDeck();if(!d){modal();return msg('デッキがありません。デッキを作成してください')}modal();BD=d.cnt;BD2=fitDeck(STORY[i].deck);ON=0;CPU=1;STAGE=i;AVP=[ST.av,STORY[i].av];PLN=[ST.name||'あなた',STORY[i].n];TG=0;EMO=[null,null];WH=0;$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);init();cpuStep()}
 function storyEnd(){if(S.over.w===0&&!TG){const r=STORY[STAGE].rw;ST.pt+=r;if((ST.sc||0)<=STAGE)ST.sc=STAGE+1;store();S.rwTxt='報酬 ✨+'+r+'pt'}}
 function goStory(){goHome();showPage('story')}
 function avSel(){modal(`<b>アバターを選択</b><div style="margin:8px"><button class="b" onclick="setAv('def')">初期</button></div><div>${AVS.map(k=>`<div class="avt sm" style="display:inline-block;margin:4px;background-image:url(${ART[k]})" onclick="setAv('${k}')"></div>`).join('')}</div><button class="b" onclick="modal()">閉じる</button>`)}
@@ -715,7 +758,7 @@ let AVP=['def','def'],EMO=[null,null],WH=0;
 const EMJ=['🤝','👍','🤔','😮','😠'];
 function avHtml(pi,mine){const k=AVP[pi]||'def',x=AVX[k],e=EMO[pi],img=x&&e&&e.f!=null?x.f[e.f]:(ART[k]||'');
 const think=!mine&&!S.over&&((CPU&&S.turn===1)||(ON&&S.turn!==ME));
-return `<div class="avp ${mine?'mine':'opp'}"><div class="avped"></div><div class="avb2${x?'':' c'}"${img?` style="background-image:url(${img})"`:''}${mine?' onclick="emoMenu()"':''}>${img?'':'👤'}</div>${e&&e.t?`<div class="emob">${e.t}</div>`:''}${think?'<span class="think">思考中…</span>':''}${mine?'<span class="hint">アバターをタップでエモート</span>':''}${mine&&WH?wheel(k):''}</div>`}
+return `<div class="avp ${mine?'mine':'opp'}">${lifeHtml(pi)}<div class="avped"></div><div class="avb2${x?'':' c'}"${img?` style="background-image:url(${img})"`:''}${mine?' onclick="emoMenu()"':''}>${img?'':'👤'}</div>${e&&e.t?`<div class="emob">${e.t}</div>`:''}${think?'<span class="think">思考中…</span>':''}${mine?'<span class="hint">アバターをタップでエモート</span>':''}${mine&&WH?wheel(k):''}</div>`}
 function wheel(k){const x=AVX[k],its=x?x.ic.map((ic,i)=>[`<img src="${ic}" alt="${x.nm[i]}">`,i]):EMJ.map((t,i)=>[t,i]),n=its.length;
 return `<div class="wheel">${its.map(([h,i],j)=>`<button class="wb" style="--a:${n>1?-72+144*j/(n-1):0}deg" onclick="emote(${i})">${h}</button>`).join('')}</div>`}
 function emoMenu(){WH=!WH;render()}
@@ -745,7 +788,7 @@ function arw(){let e=document.getElementById('arw');if(!S.blk){if(e)e.remove();r
 const A=q(S.turn,S.blk.a),B=q(S.blk.p,S.blk.t==='deck'?'deck':S.blk.t);if(!A||!B){if(e)e.remove();return}
 const [ax,ay]=ctr(A),[bx,by]=ctr(B);if(!e){e=document.createElement('div');e.id='arw';document.body.appendChild(e)}
 e.className='arw';e.innerHTML=`<svg width="100%" height="100%"><defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#ff5252"/></marker></defs><line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" stroke="#ff5252" stroke-width="6" stroke-dasharray="12 8" marker-end="url(#ah)"/></svg>`}
-function svgFx(x,y,w,svg,ms){const d=fx('slx',svg,x-w/2,y-w/2,ms);d.style.width=w+'px';d.style.height=w+'px'}
+function svgFx(x,y,w,svg,ms){w*=FS;const d=fx('slx',svg,x-w/2,y-w/2,ms);d.style.width=w+'px';d.style.height=w+'px'}
 function shotFx(ax,ay,bx,by,col){const d=fx('orb','',ax,ay,700);d.style.background=`radial-gradient(circle,#fff,${col||'#4fc3f7'} 55%,transparent 72%)`;d.style.boxShadow=`0 0 18px 8px ${col||'#4fc3f7'}`;if(d.animate)d.animate([{transform:'scale(.6)'},{transform:`translate(${bx-ax}px,${by-ay}px) scale(1.2)`}],{duration:380,easing:'ease-in',fill:'forwards'})}
 function skullFx(p,i){const e=q(p,i);if(!e)return;const [x,y]=ctr(e);fx('skl','💀',x,y,1000)}
 function hitFx(st,lp,li,wp,wi){const e=q(lp,li);if(!e)return;const [x,y]=ctr(e);
@@ -754,7 +797,7 @@ else if(st===1)svgFx(x,y,120,'<svg viewBox="0 0 100 100"><path class="ln c" d="M
 else if(st===2){svgFx(x,y,170,'<svg viewBox="0 0 100 100"><path class="ln k" d="M2 98L98 2"/></svg>',800);fx('flsh','',x-60,y-60,300)}
 else{const w=q(wp,wi);if(w){const [wx,wy]=ctr(w);shotFx(wx,wy,x,y,'#b24dff');setTimeout(()=>fx('bu','✨',x,y,500),380)}else fx('bu','✨',x,y,500)}}
 function clash(ai,t,o){o=o||{};fxe('clash',[ai,t,o]);const A=q(S.turn,ai),B=q(1-S.turn,t==='deck'?'deck':t);if(!A||!B)return;const [ax,ay]=ctr(A),[bx,by]=ctr(B);
-if(o.sh)shotFx(ax,ay,bx,by,'#4fc3f7');else{const c=A.querySelector('.card');if(c){const g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${ax-32}px;top:${ay-49}px;margin:0;z-index:20;transform:none;`;document.body.appendChild(g);c.style.opacity=0;g.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${bx-ax}px,${by-ay}px) scale(1.3)`,offset:.5},{transform:'translate(0,0) scale(1)'}],{duration:500,easing:'ease-in-out'}).onfinish=()=>g.remove()}}
+if(o.sh)shotFx(ax,ay,bx,by,'#4fc3f7');else{const c=A.querySelector('.card');if(c){const g=c.cloneNode(true);g.style.cssText+=`;position:fixed;left:${ax-32}px;top:${ay-49}px;margin:0;z-index:20;transform:none;`;document.body.appendChild(g);c.style.opacity=0;g.animate([{transform:`translate(0,0) scale(${FS})`},{transform:`translate(${bx-ax}px,${by-ay}px) scale(${1.3*FS})`,offset:.5},{transform:`translate(0,0) scale(${FS})`}],{duration:500,easing:'ease-in-out'}).onfinish=()=>g.remove()}}
 setTimeout(()=>{if(o.sk)o.sk.forEach(([p,i])=>skullFx(p,i));else if(o.h)hitFx(...o.h);else fx('bu','💥',bx,by,450)},o.sh?380:250)}
 function atk3(t){const me=cur(),o=opp(),ai=S.atk,a=me.zone[ai],w=wk(),fa0=ef(a);
 const end=fo=>{S.atk=null;clash(ai,t,fo);const dl=(fo.sh||(fo.h&&fo.h[0]===3))?850:520;lock(dl);setTimeout(flush,dl)};
@@ -823,7 +866,7 @@ document.querySelectorAll('.tuth').forEach(x=>x.classList.remove('tuth'));if(st.
 function tutNext(){TI++;render()}
 function tutEnd(){TUT=0;const c=document.querySelector('.coach');if(c)c.remove();document.querySelectorAll('.tuth').forEach(x=>x.classList.remove('tuth'))}
 function startTutorial(){modal();BD=DEF();BD2=fitDeck({見張り兵:4,野良犬:4,弓兵:3,剣士:3,賢者:3,守護兵:3,盗賊:3,武闘家:3,天啓:2,雷鳴:1});ON=0;CPU=1;STAGE=0;TG=1;AVP=[ST.av,'BKB'];PLN=[ST.name||'あなた','BKB先生'];EMO=[null,null];WH=0;TUT=1;TI=0;
-$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);init();
+$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);init();
 S.turn=0;S.coin=1;S.fst=0;S.f1=0;S.cover=0;S.tc=[0,0];S.p[0].hand=['剣士','見張り兵','地上世界','要塞','天啓'].map(k=>mkCard(CM[k]));go();cpuStep()}
 const STARTERS=[
 {nm:'速攻デッキ',ds:'酔い止めの足が速いレジデントと除去呪文で、先手を取って一気に攻める。',cnt:{盗賊:4,疾風兵:4,野良犬:4,剣士:3,武闘家:3,狩人:2,賢者:2,守護兵:3,見張り兵:2,弓兵:1,地上世界:3,雷鳴:3,落石:4,天啓:2}},
@@ -859,14 +902,14 @@ function tutNext(){if(TS[TI]&&TS[TI].fin)return tutDone();TI++;render()}
 function tutDone(){TUT=0;ST.tut=1;store();const c=document.querySelector('.coach');if(c)c.remove();document.querySelectorAll('.tuth').forEach(x=>x.classList.remove('tuth'));modal('<b>チュートリアル完了!</b><p>おつかれさま!スタートデッキで、自由に戦ってみましょう。</p><button class="b pri" onclick="modal();goHome()">ホームへ</button>')}
 const TF=['見張り兵','野良犬','剣士','弓兵','賢者','盗賊','守護兵','亡霊','武闘家','道化','狩人','じじい'];
 function startTutorial(){modal();ON=0;CPU=1;STAGE=0;TG=1;AVP=[ST.av,'BKB'];PLN=[ST.name||'あなた','BKB先生'];EMO=[null,null];WH=0;TUT=1;TI=0;BD=STARTERS[0].cnt;BD2=fitDeck({野良犬:4,賢者:4,剣士:4});
-$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);init();
+$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);init();
 const mc=a=>a.map(k=>mkCard(CM[k])),fill=n=>{const o=[];for(let i=0;i<n;i++)o.push(TF[i%TF.length]);return o},P=S.p[0],Q=S.p[1];
 P.hand=mc(['剣士','見張り兵','地上世界','要塞','天啓']);P.deck=mc([...fill(DK-5-8),...['弓兵','盗賊','守護兵','武闘家','見張り兵','剣士','賢者','道化'].reverse()]);
 Q.hand=mc(['野良犬','賢者','剣士','天啓','見張り兵']);Q.deck=mc([...fill(DK-5-6),...['武闘家','弓兵','盗賊','守護兵','亡霊','狩人'].reverse()]);
 S.turn=0;S.coin=1;S.fst=0;S.f1=0;S.cover=0;S.tc=[0,0];S.tn=0;go();cpuStep()}
 let LPE=0;
 function cardInfo(k){const t=CM[k];if(!t)return;const c=mkCard(t);modal(`<div style="zoom:2;display:inline-block">${card(c)}</div><div style="text-align:left;font-size:13px;margin-top:8px">${c.f.map((f,i)=>fT(c,f,i)).join('')}${c.sp?`<div class="df"><b>呪文:${c.sp.n}</b> コスト${c.sp.c}<div>${c.sp.x}</div></div>`:''}${c.pc?'<div>↪️パラレルカウンター:自分のパラレルが起きた時、このカードを手札から使ってよい(パラレル1回につき1回)</div>':''}${t.rar?`<div>レアリティ:${t.rar}</div>`:''}</div><button class="b" onclick="modal()">閉じる</button>`,1)}
-document.addEventListener('pointerdown',e=>{if(PG!=='edit'||$('app').style.display==='grid')return;const it=e.target.closest&&e.target.closest('.it');if(!it)return;clearTimeout(LPE);const k=it.dataset.k;LPE=setTimeout(()=>{if(DG&&DG.on)return;DG=null;NC=Date.now()+1500;cardInfo(k)},500)});
+document.addEventListener('pointerdown',e=>{if(PG!=='edit'||$('app').style.display==='block')return;const it=e.target.closest&&e.target.closest('.it');if(!it)return;clearTimeout(LPE);const k=it.dataset.k;LPE=setTimeout(()=>{if(DG&&DG.on)return;DG=null;NC=Date.now()+1500;cardInfo(k)},500)});
 document.addEventListener('pointermove',()=>{if(DG&&DG.on)clearTimeout(LPE)});
 ['pointerup','pointercancel'].forEach(ev=>document.addEventListener(ev,()=>clearTimeout(LPE)));
 const TS=[
@@ -887,7 +930,7 @@ const TS=[
 {t:'相手の野良犬が上下反転して番犬に変わりました。賢者は「パラレルシフト」を持つので反転しません。これがパラレルです!',b:1},
 {t:'チュートリアル完了!スタートデッキで自由に対戦してみよう。',b:1,fin:1}];
 function startTutorial(){modal();ON=0;CPU=1;STAGE=0;TG=1;AVP=[ST.av,'BKB'];PLN=[ST.name||'あなた','BKB先生'];EMO=[null,null];WH=0;TUT=1;TI=0;BD=STARTERS[0].cnt;BD2=fitDeck({野良犬:4,賢者:4,剣士:4});
-$('shell').style.display='none';$('app').style.display='grid';scrollTo(0,0);init();
+$('shell').style.display='none';$('app').style.display='block';scrollTo(0,0);init();
 const mc=a=>a.map(k=>mkCard(CM[k])),fill=n=>{const o=[];for(let i=0;i<n;i++)o.push(TF[i%TF.length]);return o},P=S.p[0],Q=S.p[1];
 P.hand=mc(['剣士','見張り兵','要塞','天啓','賢者']);P.deck=mc([...fill(DK-5-3-8),'地上世界','地下世界','バベルの塔',...['弓兵','盗賊','守護兵','武闘家','見張り兵','剣士','賢者','道化'].reverse()]);
 Q.hand=mc(['野良犬','賢者','剣士','天啓','見張り兵']);Q.deck=mc([...fill(DK-5-6),...['武闘家','弓兵','盗賊','守護兵','亡霊','狩人'].reverse()]);
@@ -924,5 +967,12 @@ return `<div class="pgc"><div class="eh"><button class="b" onclick="showPage('pa
 function fit(){if(!window.innerWidth)return;const W=820,H=380,vw=innerWidth,vh=innerHeight,s=Math.min(vw/W,vh/H,1.8),x=(vw-W*s)/2,y=(vh-H*s)/2;
 ['shell','app'].forEach(id=>{const e=$(id);if(e)e.style.transform=`translate(${x}px,${y}px) scale(${s})`});const r=$('rot');if(r)r.style.display=vh>vw?'flex':'none'}
 addEventListener('resize',fit);addEventListener('orientationchange',fit);
+let HX=0;
+function lifeHtml(pi){const v=S.p[pi]?sum(S.p[pi]):0,mine=pi===vw();let ps='';for(let i=1;i<=10;i++)ps+=`<i${i<=v?' class="on"':''}></i>`;return `<div class="life ${mine?'me':'op'}${v>=7?' hot':''}"><b>${v}</b><small>/10 墓地</small><div class="lp">${ps}</div></div>`}
+function handTap(i){if(!HX){HX=1;render();return}handClick(i)}
+function appTap(e){if(!HX)return;if(e.target.closest&&e.target.closest('.hand,.slot,.bar,.avp,.info,.det,button,.ov,.world'))return;HX=0;render()}
+let FS=1;
+function fit(){if(!window.innerWidth)return;const vw=innerWidth,vh=innerHeight,land=vw>=vh,W0=land?820:400,H0=land?380:700,s=Math.min(vw/W0,vh/H0),W=vw/s,H=vh/s;FS=s;
+['shell','app'].forEach(id=>{const e=$(id);if(!e)return;e.style.width=W+'px';e.style.height=H+'px';e.style.transform=`scale(${s})`;e.classList.remove('land','port');e.classList.add(land?'land':'port')});const r=$('rot');if(r)r.style.display='none'}
 fit();load();goHome();if(!ST.name){REGAV=ST.av||'def';setTimeout(()=>regOpen(1),300)}else if(!ST.decks.length)setTimeout(()=>pickStarter(0),300)
 </script></body></html>
