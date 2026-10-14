@@ -581,7 +581,7 @@ const curDeck=()=>ST.decks.find(d=>d.id===ST.sel);
 function store(){try{localStorage.setItem('c200b',JSON.stringify(ST))}catch(e){}}
 function load(){try{const j=localStorage.getItem('c200b');if(j)ST=JSON.parse(j)}catch(e){}
 ST.decks=ST.decks.filter(d=>!(d.name==='スターターデッキ'&&tot(d.cnt)<DK));if(ST.sel&&!ST.decks.find(d=>d.id===ST.sel))ST.sel=ST.decks.length?ST.decks[0].id:null;if(ST.coins==null)ST.coins=1000;if(ST.pt==null)ST.pt=0;if(ST.tk==null)ST.tk=0;if(!ST.lb)ST.lb={n:0,d:''};if(!ST.sk)ST.sk={};if(!ST.tc)ST.tc={};if(ST.sc==null)ST.sc=0;if(!ST.av)ST.av='def';ST.col=ST.col||{};ST.decks.forEach(trimDeck);if(!ST.pid)ST.pid='p'+Math.random().toString(36).slice(2,10)+Date.now().toString(36);ST.tw=ST.tw||{f:1,best:0,cp:1};ST.rk=ST.rk||{r:1000,w:0,l:0,s:0,g:0,best:1000,bs:0};stt();ST.tu=ST.tu||{t0:1}}
-const toast=t=>fx('toast',t,null,null,1700);
+const toast=t=>{try{SND.toast(t)}catch(e){}return fx('toast',t,null,null,1700)};
 function modal(h,w){$('md').innerHTML=h?`<div class="ov"><div class="box${w?' wide':''}">${h}</div></div>`:''}
 const msg=t=>modal(`<p>${t}</p><button class="b" onclick="modal()">OK</button>`);
 function askYN(t,f){window._yn=f;modal(`<p>${t}</p><button class="b" onclick="modal();_yn()">はい</button><button class="b" onclick="modal()">いいえ</button>`)}
@@ -1105,7 +1105,7 @@ ch.on('presence',{event:'sync'},()=>{const ps=peers();pcs.forEach(f=>f({peers:ps
 await new Promise((ok,ng)=>ch.subscribe(s=>{if(s==='SUBSCRIBED'){if(pres)ch.track({pr:pres});ok()}else if(s==='CHANNEL_ERROR'||s==='TIMED_OUT')ng(new Error(s))}));
 return{emit:(t,d)=>ch.send({type:'broadcast',event:'m',payload:{t,d,p:id}}),on:(t,f)=>{(hs[t]=hs[t]||[]).push(f)},onPeers:f=>{pcs.push(f);const ps=peers();if(ps.length)f({peers:ps})},presence:o=>{pres=o;return ch.track({pr:o})},leave:()=>{try{sb.removeChannel(ch)}catch(e){}}}}
 const netMode=()=>(window.claude&&window.claude.use)?'Claude内の通信機能':(NETCFG.url&&NETCFG.key)?'Supabase':'未設定';
-function pSet(){return `<div class="pgc"><h3>設定</h3><b>オンライン対戦の接続(Supabase)</b><p style="font-size:12px">Claude内の公開ページ以外(外部ホスティング)でオンライン対戦をする時に必要です。SupabaseのProject URLと、anon public キーを入れてください。</p><input id="sbu" placeholder="https://xxxx.supabase.co" value="${esc(NETCFG.url)}" style="width:95%;font:inherit;padding:6px"><input id="sbk" placeholder="anon public key" value="${esc(NETCFG.key)}" style="width:95%;font:inherit;padding:6px;margin-top:6px"><div style="margin-top:8px"><button class="b pri" onclick="saveNet()">保存</button> <button class="b" onclick="clearNet()">消去</button></div><p style="font-size:12px">現在の接続方式: <b>${netMode()}</b></p><p style="font-size:11px;opacity:.6">バージョン 2026-10-13</p><div style="margin:10px 0"><label><input type="checkbox" ${ST.ae!==false?'checked':''} onchange="ST.ae=this.checked;store()"> 自動ターンエンド(やることがない時、自動でターンを終了する)</label></div><hr><button class="b" onclick="REGAV=ST.av||'def';regOpen(0)">名前・アバター変更</button></div>`}
+function pSet(){return `<div class="pgc"><h3>設定</h3><b>オンライン対戦の接続(Supabase)</b><p style="font-size:12px">Claude内の公開ページ以外(外部ホスティング)でオンライン対戦をする時に必要です。SupabaseのProject URLと、anon public キーを入れてください。</p><input id="sbu" placeholder="https://xxxx.supabase.co" value="${esc(NETCFG.url)}" style="width:95%;font:inherit;padding:6px"><input id="sbk" placeholder="anon public key" value="${esc(NETCFG.key)}" style="width:95%;font:inherit;padding:6px;margin-top:6px"><div style="margin-top:8px"><button class="b pri" onclick="saveNet()">保存</button> <button class="b" onclick="clearNet()">消去</button></div><p style="font-size:12px">現在の接続方式: <b>${netMode()}</b></p><p style="font-size:11px;opacity:.6">バージョン 2026-10-13</p><div style="margin:10px 0"><label><input type="checkbox" ${ST.ae!==false?'checked':''} onchange="ST.ae=this.checked;store()"> 自動ターンエンド(やることがない時、自動でターンを終了する)</label></div><div style="margin:10px 0;text-align:left"><b>音</b><div><label><input type="checkbox" ${ST.se!==false?'checked':''} onchange="ST.se=this.checked;SND.vol();store();if(this.checked)SND.play('reward')"> 効果音</label> <input type="range" min="0" max="100" value="${Math.round((ST.sv==null?.7:ST.sv)*100)}" oninput="ST.sv=this.value/100;SND.vol()" onchange="store();SND.play('summon')" style="width:45%;vertical-align:middle"></div><div><label><input type="checkbox" ${ST.bgmOn!==false?'checked':''} onchange="ST.bgmOn=this.checked;SND.vol();SND.sync(1);store()"> BGM</label> <input type="range" min="0" max="100" value="${Math.round((ST.bv==null?.4:ST.bv)*100)}" oninput="ST.bv=this.value/100;SND.vol()" onchange="store()" style="width:45%;vertical-align:middle"></div><div><label><input type="checkbox" ${ST.wbgm!==false?'checked':''} onchange="ST.wbgm=this.checked;SND.sync(1);store()"> 世界が変わるとき、重低音+世界のBGM</label></div><button class="b sm" onclick="SND.test()">音のテスト</button></div><hr><button class="b" onclick="REGAV=ST.av||'def';regOpen(0)">名前・アバター変更</button></div>`}
 function saveNet(){const u=($('sbu').value||'').trim().replace(/\/+$/,''),k=($('sbk').value||'').trim();if(!/^https:\/\/.+/.test(u)||k.length<20)return msg('URL(https://…)とキーを正しく入力してください');NETCFG={url:u,key:k};try{localStorage.setItem('c200net',JSON.stringify(NETCFG))}catch(e){}toast('保存しました');showPage('set')}
 function clearNet(){NETCFG={url:'',key:''};try{localStorage.removeItem('c200net')}catch(e){}showPage('set')}
 let LA=Date.now(),TIV=0,TREM=-1,TRAT=0,HSL=0;
@@ -1568,7 +1568,7 @@ function slotChooser(i,fi){const me=S.p[S.turn],c=me&&me.hand[i];if(!c||c.t!=='r
 modal(`<b>どこに出しますか?</b><div style="font-size:12px;margin:4px 0">${esc(c.f[fi].n)}</div>${c.f.length>1?`<div style="margin:6px 0"><button class="b ${fi?'':'pri'}" onclick="slotChooser(${i},0)">上面:${esc(c.f[0].n)}</button> <button class="b ${fi?'pri':''}" onclick="slotChooser(${i},1)">下面:${esc(c.f[1].n)}</button></div>`:''}<div class="slotpick">${[0,1,2].map(k=>{const z=me.zone[k],en=(!z&&usable(me,k))||full;return `<button class="b ${en?'pri':''}" ${en?'':'disabled'} onclick="slotPut(${i},${k})">${NM3[k]}<small>${z?esc(fc(z).n)+'と入れ替え':(usable(me,k)?'空き':'使用不可')}</small></button>`}).join('')}</div><button class="b" onclick="modal()">キャンセル</button>`)}
 function slotPut(i,k){modal();const me=S.p[S.turn];if(!me.hand[i])return;S.sel=i;S.mv=null;slotClick(me.i,k)}
 /* --- 描画フック --- */
-function render(){render0();aeSched();trialBtn()}
+function render(){render0();aeSched();trialBtn();SND.diff();SND.sync()}
 function trialBtn(){let b=document.getElementById('trbtn');if(TRIAL&&$('app').style.display==='block'){if(!b){b=document.createElement('button');b.id='trbtn';b.className='trb';b.textContent='🧪';b.onclick=()=>trialMenu();document.body.appendChild(b)}b.style.display='block'}else if(b)b.style.display='none'}
 function init(){init0();if(TRIAL){S.turn=0;S.coin=1;S.fst=0;S.f1=0;S.cover=0;S.tc=[0,0];cpuStep()}}
 /* --- デッキ編成: 一覧にテキスト --- */
@@ -1620,5 +1620,121 @@ else if(TR.tgt==='world'){setWorld(me,mk());toast('世界を展開:'+nm)}
 else if(TR.tgt==='wq'){S.nparNext=1;setWorld(me,mk());toast('世界をセット(パラレルなし):'+nm)}
 else if(TR.tgt==='g0'||TR.tgt==='g1'){const p=TR.tgt==='g0'?me:o;gy(p,mk());check();toast((TR.tgt==='g0'?'自分':'相手')+'の墓地へ:'+nm)}
 render();trialList()}
+/* ===== 音: 効果音 + BGM (Web Audioで生成。音声ファイルは使わない) ===== */
+const SND=(()=>{
+let ctx=null,sg=null,bg=null,ok=true,nb=null,cur='',tg=null,tm=0,nextT=0,step=0,tkey='',started=0,lastTick=-1;
+const lastP={},LOG=[];
+const on=()=>ST.se!==false,bon=()=>ST.bgmOn!==false,sv=()=>ST.sv==null?.7:ST.sv,bv=()=>ST.bv==null?.4:ST.bv;
+const me=()=>(typeof ON!=='undefined'&&ON)?ME:0;
+function init(){if(ctx||!ok)return ctx;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){ok=false;return null}ctx=new AC();const mg=ctx.createGain();mg.gain.value=1;const cp=ctx.createDynamicsCompressor?ctx.createDynamicsCompressor():null;if(cp){cp.threshold.value=-14;cp.ratio.value=8;cp.attack.value=.003;cp.release.value=.25;mg.connect(cp);cp.connect(ctx.destination)}else mg.connect(ctx.destination);sg=ctx.createGain();sg.connect(mg);bg=ctx.createGain();bg.connect(mg);vol()}catch(e){ok=false;ctx=null}return ctx}
+function vol(){if(!ctx)return;sg.gain.value=on()?sv():0;bg.gain.value=bon()?bv()*.5:0}
+function resume(){if(!init())return;try{if(ctx.state==='suspended')ctx.resume().catch(()=>{})}catch(e){}}
+const F=n=>440*Math.pow(2,(n-69)/12);
+function tone(type,f0,f1,t,d,v,dest,att){const c=ctx,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+d);g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(v,t+(att||.005));g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(dest||sg);o.start(t);o.stop(t+d+.05)}
+function noise(t,d,v,ft,f0,f1,dest){const c=ctx;if(!nb){const sr=c.sampleRate||44100;nb=c.createBuffer(1,Math.floor(sr),sr);const ch=nb.getChannelData(0);for(let i=0;i<ch.length;i++)ch[i]=Math.random()*2-1}
+const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=nb;s.loop=true;f.type=ft||'lowpass';f.frequency.setValueAtTime(f0||1000,t);if(f1)f.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+d);g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(v,t+.004);g.gain.exponentialRampToValueAtTime(0.0001,t+d);s.connect(f);f.connect(g);g.connect(dest||sg);s.start(t);s.stop(t+d+.05)}
+function noiseRise(t,d,v,ft,f0,f1,dest){const c=ctx;if(!nb){const sr=c.sampleRate||44100;nb=c.createBuffer(1,Math.floor(sr),sr);const ch=nb.getChannelData(0);for(let i=0;i<ch.length;i++)ch[i]=Math.random()*2-1}
+const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=nb;s.loop=true;f.type=ft||'bandpass';f.frequency.setValueAtTime(f0||500,t);if(f1)f.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+d);g.gain.linearRampToValueAtTime(0.0001,t+d+.03);s.connect(f);f.connect(g);g.connect(dest||sg);s.start(t);s.stop(t+d+.06)}
+const FXS={
+ui:t=>tone('triangle',900,700,t,.05,.18),
+sel:t=>tone('sine',700,990,t,.08,.2),
+deny:t=>{tone('square',160,140,t,.09,.15);tone('square',140,120,t+.1,.1,.15)},
+draw:t=>{noise(t,.07,.18,'bandpass',2800,1800);tone('sine',520,780,t,.07,.12)},
+summon:t=>{tone('triangle',200,80,t,.2,.5);noise(t,.1,.2,'lowpass',900,300);tone('sine',988,988,t+.06,.18,.12)},
+attack:t=>{noise(t,.22,.22,'highpass',600,3200);tone('sawtooth',320,140,t,.2,.12)},
+clash:t=>{noise(t,.18,.5,'lowpass',2200,400);tone('sine',140,50,t,.22,.7);tone('square',420,200,t,.06,.15)},
+crit:t=>{noise(t,.12,.4,'highpass',1800,5000);tone('square',1500,900,t,.12,.2);tone('sine',90,45,t,.25,.6)},
+destroy:t=>{noise(t,.5,.45,'bandpass',600,150);tone('sawtooth',220,40,t,.45,.25)},
+spell:t=>{[523,659,784,1047,1319].forEach((f,i)=>tone('sine',f,f,t+i*.06,.22,.16))},
+pcounter:t=>{[392,523,659,784].forEach((f,i)=>tone('triangle',f,f*1.5,t+i*.05,.3,.14));noise(t,.3,.12,'bandpass',3000,800)},
+world:t=>{noiseRise(t,.34,.3,'bandpass',250,2600);const h=t+.34;tone('sine',78,27,h,1.6,.8);tone('sine',46,30,h,1.9,.6);tone('triangle',120,40,h,.7,.32);noise(h,1.2,.45,'lowpass',260,70);noise(h,.05,.5,'highpass',1500,4000);noise(t,2,.1,'lowpass',120,60);tone('sine',110,55,h+.02,.35,.3)},
+worldsoft:t=>{tone('sine',70,330,t,.9,.4);[262,330,392].forEach(f=>tone('triangle',f,f,t+.2,.9,.1));noise(t+.1,.6,.1,'bandpass',500,2500)},
+parallel:t=>{tone('sawtooth',1300,140,t,.7,.2);noise(t,.7,.18,'bandpass',4000,300);tone('sine',180,720,t+.5,.4,.2)},
+turn:t=>{tone('sine',1046,1046,t,.55,.28);tone('sine',2093,2093,t,.4,.08)},
+dice:t=>{for(let i=0;i<7;i++)tone('square',260+Math.random()*180,200,t+i*.085,.05,.1)},
+crack:t=>{noise(t,.9,.5,'lowpass',280,60);noise(t+.05,.15,.5,'highpass',2500,6000);tone('sine',55,35,t,.9,.6)},
+zombie:t=>{tone('sawtooth',130,48,t,.6,.2);noise(t,.5,.12,'lowpass',500,120)},
+cost:t=>tone('square',220,110,t,.15,.18),
+coin:t=>{tone('square',1319,1319,t,.07,.12);tone('square',1760,1760,t+.07,.12,.12)},
+reward:t=>{[1046,1319,1568,2093].forEach((f,i)=>tone('triangle',f,f,t+i*.07,.3,.18))},
+win:t=>{[523,659,784,1047].forEach((f,i)=>tone('triangle',f,f,t+i*.13,.5,.22));[523,659,784].forEach(f=>tone('sine',f/2,f/2,t+.55,1.2,.12))},
+lose:t=>{[440,370,294,220].forEach((f,i)=>tone('sawtooth',f,f*.98,t+i*.28,.6,.14))},
+tick:t=>tone('triangle',1400,1100,t,.03,.1),
+pburst:t=>{tone('sine',70,28,t,.7,.7);noise(t,.5,.4,'lowpass',3000,200);[1046,1568,2093].forEach((f,i)=>tone('sine',f,f,t+.1+i*.05,.5,.1))},
+flip:t=>{noise(t,.09,.2,'bandpass',2200,3200);tone('sine',420,620,t,.09,.1)},
+heart:t=>{tone('sine',58,40,t,.14,.9);tone('sine',58,40,t+.22,.14,.7)},
+ch1:t=>tone('sine',1318,1318,t,.4,.18),
+ch2:t=>{tone('sine',1318,1318,t,.4,.18);tone('sine',1760,1760,t+.09,.45,.18)},
+ch3:t=>{[1046,1318,1568,2093].forEach((f,i)=>tone('triangle',f,f,t+i*.07,.5,.2))},
+ch4:t=>{[523,659,784,1047,1318,1568].forEach((f,i)=>tone('triangle',f,f,t+i*.06,.7,.2));[262,330,392].forEach(f=>tone('sine',f,f,t,1.2,.14))},
+ch5:t=>{[392,523,659,784,1047,1318,1568,2093].forEach((f,i)=>tone('sawtooth',f,f,t+i*.07,.8,.1));[196,262,330].forEach(f=>tone('sine',f,f,t+.2,1.6,.2));noise(t,.4,.15,'highpass',3000,8000)}};
+const CD={ui:.04,tick:.05,dice:.3,sel:.05,deny:.2,turn:.5,clash:.12,destroy:.1,summon:.12,draw:.08,world:.8,worldsoft:.5,spell:.3,heart:.3};
+function play(n,dly){try{if(!on())return;const f=FXS[n];if(!f)return;const nw=Date.now()/1000,k=lastP[n]||0;if(nw-k<(CD[n]||.06))return;lastP[n]=nw;LOG.push(n);if(LOG.length>120)LOG.shift();if(!init())return;resume();f(ctx.currentTime+(dly||0)+.01)}catch(e){}}
+/* --- BGM --- */
+const TRK={
+menu:{bpm:72,root:60,chords:[[0,4,7,11],[9,12,16,19],[5,9,12,16],[7,11,14,17]],arp:[0,1,2,3,2,1,2,3],pad:'sine',drums:0,bass:1},
+battle:{bpm:118,root:57,chords:[[0,3,7,10],[8,12,15,19],[3,7,10,14],[10,14,17,20]],arp:[0,2,1,3,2,1,3,2],pad:'sawtooth',drums:1,bass:1},
+boss:{bpm:136,root:50,chords:[[0,3,7,10],[0,3,7,10],[8,12,15,19],[7,10,14,17]],arp:[0,2,3,2,1,2,3,1],pad:'sawtooth',drums:2,bass:1},
+pack:{bpm:64,root:64,chords:[[0,4,7,12],[5,9,12,16],[3,7,10,14],[7,11,14,19]],arp:[0,2,1,3],pad:'triangle',drums:0,bass:0}};
+Object.assign(TRK,{
+w_gr:{bpm:112,root:60,chords:[[0,4,7],[7,11,14],[9,12,16],[5,9,12]],arp:[0,1,2,1,2,1,2,0],pad:'triangle',arpw:'triangle',drums:1,bass:1},
+w_ug:{bpm:84,root:48,chords:[[0,3,7],[0,3,7],[8,12,15],[7,10,14]],arp:[0,-1,-1,2,-1,-1,1,-1],pad:'sine',padv:.045,arpw:'sine',drums:0,bass:0,drone:1,drip:.12},
+w_bb:{bpm:132,root:62,chords:[[0,3,7],[5,8,12],[7,10,14],[3,7,10]],arp:[0,1,2,3,2,3,3,2],pad:'sawtooth',arpw:'square',drums:2,bass:1,climb:1,bell:1},
+w_ht:{bpm:72,root:67,chords:[[0,4,7,11],[2,6,9,14],[4,7,11,14],[0,4,7,12]],arp:[0,-1,2,-1,1,-1,3,-1],pad:'sine',padv:.04,arpw:'sine',drums:0,bass:0,choir:1,bell:1},
+w_fr:{bpm:96,root:62,chords:[[0,4,7],[5,9,12],[7,11,14],[0,4,7]],arp:[0,2,1,3,2,-1,1,-1],pad:'triangle',arpw:'sine',drums:3,bass:1,wind:.05},
+w_wl:{bpm:78,root:52,chords:[[0,1,7],[0,3,7],[1,5,8],[0,3,7]],arp:[0,-1,-1,-1,2,-1,-1,-1],pad:'sawtooth',padv:.025,arpw:'triangle',drums:4,bass:0,wind:.09,drone:1},
+w_fo:{bpm:104,root:55,chords:[[0,7,12],[0,7,12],[5,12,17],[7,14,19]],arp:[0,-1,1,-1,0,-1,2,-1],pad:'square',padv:.02,arpw:'square',drums:5,bass:1},
+w_bw:{bpm:108,root:60,chords:[[0,4,7,10],[5,9,12,15],[0,4,7,10],[7,11,14,17]],arp:[0,-1,2,-1,1,3,-1,2],pad:'triangle',arpw:'square',drums:1,bass:1,bassPat:[1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0]},
+w_op:{bpm:118,root:57,chords:[[0,3,6],[5,8,11],[7,10,13],[1,4,8]],arp:[3,2,1,0,3,2,1,0],pad:'sawtooth',padv:.03,arpw:'square',arpOct:-12,drums:1,bass:1,swell:1}});
+function drum(m,i,t){if(!m)return;
+if(m===1||m===2){if(i%4===0)tone('sine',130,45,t,.14,.45,tg);if(m===2&&i%4===2)tone('sine',130,45,t,.1,.3,tg);if(i%8===4)noise(t,.12,.18,'bandpass',1800,1200,tg);if(i%2===1)noise(t,.03,.07,'highpass',6000,8000,tg)}
+else if(m===3){if(i%2===1)noise(t,.04,.06,'highpass',7000,9000,tg)}
+else if(m===4){if(i===0||i===8)tone('sine',95,34,t,.34,.6,tg);if(i===12)tone('sine',130,62,t,.2,.4,tg)}
+else if(m===5){if(i%8===0)tone('sine',120,45,t,.16,.45,tg);if(i%4===0||i>=12)noise(t,.06,.2,'bandpass',2200,1500,tg)}}
+function sched(){try{if(!ctx||!tkey||!tg)return;const T=TRK[tkey],sd=60/T.bpm/4;let g=0;
+while(nextT<ctx.currentTime+.35&&g++<64){const t=nextT,i=step%16,bar=Math.floor(step/16),ch=T.chords[bar%T.chords.length];
+ if(i===0){ch.forEach(n=>tone(T.pad,F(T.root+n),F(T.root+n),t,sd*16,T.padv||.035,tg,.3));
+  if(T.drone)tone('sine',F(T.root-24+ch[0]),F(T.root-24+ch[0]),t,sd*16,.11,tg,.8);
+  if(T.choir)[0,2,3].forEach(k=>{const n=T.root+ch[k%ch.length]+12;tone('sine',F(n),F(n),t,sd*16,.03,tg,.9)});
+  if(T.wind)noise(t,sd*15,T.wind,'bandpass',420,900,tg);
+  if(T.bell){const n=T.root+ch[0]+24;tone('sine',F(n),F(n),t,1.3,.07,tg,.003);tone('sine',F(n+7),F(n+7),t,.9,.03,tg,.003)}}
+ if(T.swell&&i===10)noiseRise(t,sd*6,.09,'bandpass',500,5000,tg);
+ if(T.bass&&(T.bassPat?T.bassPat[i]:i%4===0)){const n=T.root+ch[0]-12;tone('triangle',F(n),F(n),t,sd*3.5,.13,tg,.01)}
+ if(i%2===0){const ap=T.arp[(i/2)%T.arp.length];if(ap>=0){const n=T.root+ch[ap%ch.length]+(T.arpOct==null?12:T.arpOct)+(T.climb&&bar%2===1?12:0);tone(T.arpw||(T.drums?'square':'triangle'),F(n),F(n),t,sd*1.8,T.drums?.035:.05,tg,.005)}}
+ if(T.drip&&i%2===0&&Math.random()<T.drip)tone('sine',1500+Math.random()*1600,1500+Math.random()*1600,t,.14,.05,tg,.002);
+ drum(T.drums,i,t);
+ nextT+=sd;step++}}catch(e){}}
+function stopBgm(fast){if(tm){clearInterval(tm);tm=0}if(tg&&ctx){const g=tg;try{g.gain.cancelScheduledValues(ctx.currentTime);g.gain.setValueAtTime(g.gain.value||1,ctx.currentTime);g.gain.linearRampToValueAtTime(0.0001,ctx.currentTime+(fast?.2:.6))}catch(e){}setTimeout(()=>{try{g.disconnect()}catch(e){}},900)}tg=null;tkey=''}
+let pend=0;
+function bgm(name){if(name===cur)return;const wsw=(/^w_/.test(name)||/^w_/.test(cur))&&!!cur&&cur!=='__'&&cur!=='none';clearTimeout(pend);pend=0;stopBgm(wsw);cur=name;if(!name||name==='none'||!TRK[name]||!bon())return;if(!init())return;
+const go=()=>{pend=0;if(cur!==name)return;resume();tkey=name;tg=ctx.createGain();tg.gain.setValueAtTime(0.0001,ctx.currentTime);tg.gain.linearRampToValueAtTime(1,ctx.currentTime+(wsw?.8:1));tg.connect(bg);nextT=ctx.currentTime+.05;step=0;tm=setInterval(sched,120);sched()};
+if(wsw)pend=setTimeout(go,550);else go()}
+function scene(){if(typeof document==='undefined')return '';const app=document.getElementById('app');if(app&&app.style&&app.style.display==='block'){if(typeof S!=='undefined'&&S&&S.over)return 'none';const wc=(typeof S!=='undefined'&&S&&S.world&&S.world.c&&S.world.c.f[0].w)||'';if(ST.wbgm!==false&&wc&&TRK['w_'+wc])return 'w_'+wc;return(typeof TW!=='undefined'&&TW&&TWF%10===0)?'boss':'battle'}return document.querySelector('#pko')?'pack':'menu'}
+function sync(force){try{if(force)cur='__';if(!started)return;bgm(scene())}catch(e){}}
+/* --- 状態の変化から鳴らす(CPU戦・オンライン・チュートリアルすべて共通) --- */
+let prev=null;
+function snap(){if(typeof S==='undefined'||!S||!S.p||!S.p.length)return null;return{S,t:S.turn,z:S.p.map(p=>p.zone.filter(x=>x).length),h:S.p.map(p=>p.hand.length),dk:S.p.map(p=>p.deck.length),tp:S.p.reduce((a,p)=>a+p.zone.filter(x=>x&&x.tap).length,0),ov:!!S.over}}
+function diff(){try{const n=snap();if(!n){prev=null;return}const p=prev;prev=n;if(!p||p.S!==n.S||!on())return;const m=me();
+if(n.t!==p.t){if(!(typeof ON!=='undefined'&&ON)&&!(typeof CPU!=='undefined'&&CPU)||n.t===m)play('turn');return}
+if(n.z[0]>p.z[0]||n.z[1]>p.z[1])play('summon');
+else if(n.tp>p.tp)play('attack');
+if(n.h[m]>p.h[m]&&n.dk[m]<p.dk[m])play('draw')}catch(e){}}
+const TOASTS=[[/できません|使えません|足りません|不可|準備中|ありません/,'deny'],[/獲得|達成|受け取|報酬|🎁|🪙\+|✨\+/,'reward']];
+function toast(m){try{const s=String(m);for(const [re,n] of TOASTS)if(re.test(s)){play(n);return}}catch(e){}}
+function testSnd(){started=1;resume();['summon','attack','clash','spell','win'].forEach((n,i)=>setTimeout(()=>play(n),i*450));sync(1)}
+/* --- 既存の演出関数に音をつなぐ --- */
+const H={
+fxWorld:()=>play(ST.wbgm!==false?'world':'worldsoft'),brk:()=>play('destroy'),clash:()=>play('clash'),diceFx:()=>play('dice'),luckFx:()=>play('dice'),critFx:()=>play('crit'),bcrackFx:()=>play('crack'),panFx:()=>play('zombie'),spellFx:()=>play('spell'),pcFx:()=>play('pcounter'),costFx:()=>play('cost'),
+pkBurst:()=>{play('pburst');try{const c=['','ch1','ch2','ch3','ch4','ch5'][pkHi(PKR)];if(c)play(c,.45)}catch(e){}},
+pkReveal:i=>{play('flip');try{const ri=RO.indexOf(PKR.packs[PKR.pi][i].rar);if(ri>=1)play('ch'+Math.min(ri,5),.12)}catch(e){}},
+pkTense:i=>{play('heart');setTimeout(()=>play('heart'),550);setTimeout(()=>play('heart'),1100);setTimeout(()=>{try{const ri=RO.indexOf(PKR.packs[PKR.pi][i].rar);if(ri>=1)play('ch'+Math.min(ri,5))}catch(e){}},1350)},
+pkProg:p=>{const k=Math.floor(p*12);if(p>0&&k>lastTick)play('tick');lastTick=p<=0?-1:k},
+endFx:()=>{const lost=(typeof ON!=='undefined'&&ON)?S.over.w!==ME:(typeof CPU!=='undefined'&&CPU)?S.over.w!==0:false;play(lost?'lose':'win')},
+showPage:()=>sync(),pkRender:()=>sync(),pkClose:()=>setTimeout(()=>sync(),0)};
+Object.keys(H).forEach(n=>{const o=window[n];if(typeof o!=='function')return;window[n]=function(...a){try{H[n](...a)}catch(e){}return o.apply(this,a)}});
+/* --- 最初のタップで音を有効化 / 画面ボタンの音 / タブが隠れたら止める --- */
+document.addEventListener('pointerdown',e=>{try{resume();if(!started){started=1;sync(1)}const el=e.target&&e.target.closest?e.target.closest('button,.big,.tbb,.hc,.slot,.it,.cc'):null;if(el)play(el.matches&&el.matches('.hc,.slot,.it,.cc')?'sel':'ui')}catch(x){}},{passive:true});
+document.addEventListener('visibilitychange',()=>{try{if(!ctx)return;document.hidden?ctx.suspend():ctx.resume()}catch(e){}});
+return{play,vol,sync,diff,toast,test:testSnd,resume,log:LOG,cur:()=>cur,scene,tracks:TRK,sfx:FXS}})();
 fit();load();goHome();if(!ST.name){REGAV=ST.av||'def';setTimeout(()=>regOpen(1),300)}else if(!ST.decks.length)setTimeout(()=>pickStarter(0),300)
 </script></body></html>
